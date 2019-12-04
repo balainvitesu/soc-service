@@ -1,0 +1,140 @@
+body,
+html {
+  height: 100%;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.loginscreen {
+  text-align: center;
+}
+.soc-title {
+  color: white;
+  margin-top: 10%;
+}
+
+.socrow{
+  margin-top: 15%;
+  margin-bottom: 20px;
+}
+
+.middle-box {
+  max-width: 800px !important;
+}
+
+.soc-title-user {
+  color: white;
+  border: 1px solid #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px !important;
+  width: 150px;
+  margin: 0 auto;
+  margin-bottom: 20px !important;
+}
+
+.mt-form {
+  width: 300px !important;
+  margin: 150px 125px !important;
+}
+
+.sweet-alert {
+  width: 510px !important;
+}
+
+.sweet-alert p {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.confirm {
+  background-color: #1c84c6 !important;
+  border-color: #1c84c6 !important;
+  color: #ffffff !important;
+}
+
+#page-wrapper {
+  margin-left: 0px !important;
+}
+
+.loginscreen.middle-box {
+  width: 60% !important;
+}
+
+.user, .hacker, .pass {
+  border: none;
+  height: 50px;
+  background-size: contain !important;
+  outline: none;
+  border:none !important;
+  border-color: none !important;
+}
+
+.middle-box {
+  max-width: 500px;
+}
+
+/* .loginscreen.middle-box {
+  margin-top: 70px !important;
+  width: 550px !important;
+  height: 500px !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  max-width: unset !important;
+} */
+
+.folder-list li a,
+.category-list li a {
+  color: white;
+}
+
+.icon-item {
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.con-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.t-center {
+  text-align: center;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 30px !important;
+}
+
+.gray-bg {
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
