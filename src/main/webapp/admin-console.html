@@ -67,8 +67,8 @@
         background-size: cover;
       }
       .mainContentdiv {
-        padding: 15px;
-        padding-left: 30px;
+        padding: 20px;
+        padding-left: 120px;
         font-size: 14px;
         border-bottom: 1px solid #80808040;
       }
@@ -111,7 +111,7 @@
           success: function(data) {
             $.each(data, function(key, val) {
               var html = "";
-              if (val.user.status == "A") {
+              if (val.user.status == "Active") {
                 html =
                   '<div class="mainContentdiv" onclick="SelectCurrentRow(this)"><span>' +
                   val.name +
@@ -120,7 +120,7 @@
                   '</span><div class="innercontent"><span> Selects ' +
                   val.user.name +
                   '- <span class="active"> Activity Resumed </span> </span></div></div>';
-              } else if (val.user.status == "I") {
+              } else if (val.user.status == "Blocked") {
                 html =
                   '<div class="mainContentdiv"  onclick="SelectCurrentRow(this)"><span>' +
                   val.name +
