@@ -9,7 +9,7 @@ function createActivity(activity, userId) {
       }
     }),
     contentType: "application/json",
-    dataType: "application/json",
+    dataType: "json",
     cache: false,
     success: function(data) {
       console.log("Activity created successfully", data);
@@ -20,16 +20,16 @@ function createActivity(activity, userId) {
   });
 }
 
-function showBlockUserActivityAlert() {
+function showBlockUserActivityAlert(userId, type) {
   swal({
     title: "Alert - Offense",
     text: "Block user activity",
     type: "error"
   });
-  createActivity("Block user activity", 1);
+  createActivity("Block user activity: "+type, userId);
 }
 
-function showAccessDeniedAlert() {
+function showAccessDeniedAlert(userId) {
   swal(
     {
       title: "Alert - Offense",
@@ -42,17 +42,19 @@ function showAccessDeniedAlert() {
       }
     }
   );
+  createActivity("Access Denied", userId);
 }
 
-function showWeakPasswordAlert() {
+function showWeakPasswordAlert(userId) {
   swal({
     title: "Alert - Offense",
     text: "Weak Password",
     type: "error"
   });
+  createActivity("Weak Password", userId);
 }
 
-function showStrongPasswordAlert() {
+function showStrongPasswordAlert(userId) {
   swal(
     {
       title: "Good Job",
@@ -61,27 +63,33 @@ function showStrongPasswordAlert() {
     },
     function(isConfirm) {
       if (isConfirm) {
-        window.location.replace("home.html");
+        let searchParams = new URLSearchParams(window.location.search);
+        window.location.replace(
+          "home.html?userId=" + searchParams.get("userId")
+        );
       }
     }
   );
+  createActivity("Strong Password", userId);
 }
 
 $(document).ready(function() {
   $(".hacker").click(function() {
-    showAccessDeniedAlert();
+    showAccessDeniedAlert($(this).data("value"));
   });
 
   $(".user").click(function() {
-    window.location.replace("password.html");
+    window.location.replace("password.html?userId=" + $(this).data("value"));
   });
 
   $(".wpwd").click(function() {
-    showWeakPasswordAlert();
+    let searchParams = new URLSearchParams(window.location.search);
+    showWeakPasswordAlert(searchParams.get("userId"));
   });
 
   $(".spwd").click(function() {
-    showStrongPasswordAlert();
+    let searchParams = new URLSearchParams(window.location.search);
+    showStrongPasswordAlert(searchParams.get("userId"));
   });
 
   $("select.username").change(function() {
@@ -118,8 +126,21 @@ $(document).ready(function() {
     });
   });
 
+  $(".mail-click").click(function() {
+    let searchParams = new URLSearchParams(window.location.search);
+    showBlockUserActivityAlert(searchParams.get("userId"), "Email Phishing");
+  });
+  
   $(".s1").click(function() {
-    showBlockUserActivityAlert();
+    let searchParams = new URLSearchParams(window.location.search);
+    showBlockUserActivityAlert(searchParams.get("userId"), "Copy confidential file");
+  });
+
+  $(".s3").click(function() {
+    let searchParams = new URLSearchParams(window.location.search);
+    window.location.replace(
+      "mail_detail.html?userId=" + searchParams.get("userId")
+    );
   });
 
   $(".demo3").click(function() {
@@ -154,7 +175,8 @@ $(document).ready(function() {
       },
       function(isConfirm) {
         if (isConfirm) {
-          showBlockUserActivityAlert();
+          let searchParams = new URLSearchParams(window.location.search);
+          showBlockUserActivityAlert(searchParams.get("userId"), "Browse the internet");
         } else {
           swal("Cancelled", "Your imaginary file is safe :)", "error");
         }
