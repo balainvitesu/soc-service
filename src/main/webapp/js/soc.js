@@ -45,17 +45,19 @@ function getUserStatus(userId) {
     cache: false,
     success: function(data) {
       console.log("Getting User Status", data);
-      if(data.status === 'Blocked'){
-        swal({
-          title: "Alert - Offense",
-          text: "Admin has blocked you",
-          type: "error"
-        },
-        function(isConfirm) {
-          if (isConfirm) {
-            window.location.replace("login.html");
+      if (data.status === "Blocked") {
+        swal(
+          {
+            title: "Alert - Offense",
+            text: "Admin has blocked you",
+            type: "error"
+          },
+          function(isConfirm) {
+            if (isConfirm) {
+              window.location.replace("login.html");
+            }
           }
-        });
+        );
       }
     },
     error: function(data) {
