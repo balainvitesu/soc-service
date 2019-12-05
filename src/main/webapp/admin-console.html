@@ -2,204 +2,15 @@
 <html>
   <head>
     <meta http-equiv="refresh" content="100" />
-    <title>SOC: Lazy Loader</title>
-    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>SOC | Admin Console</title>
 
-    <style>
-      #Mainlogo {
-        background-image: url("img/soc/SOC_logo.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 150px;
-        width: 150px;
-        position: absolute;
-        top: 100px;
-        left: 300px;
-      }
-
-      .HeaderText {
-        color: white;
-        width: 417px;
-      }
-
-      #BlkUserAct {
-        background-image: url("img/soc/SOC_block_user.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 146px;
-        width: 147px;
-        margin-left: 124px;
-        margin-top: 50px;
-      }
-
-      #LeftDiv {
-        text-align: center;
-        margin-left: 200px;
-        padding-top: 30px;
-        width: 410px;
-        height: inherit;
-      }
-      #RightDiv {
-        margin-right: 200px;
-        width: 410px;
-        height: inherit;
-        overflow: scroll;
-        overflow-x: hidden;
-      }
-
-      ::-webkit-scrollbar {
-        width: 1px;
-      }
-
-      .SelectedRow {
-        background-color: #0000ff1f;
-      }
-
-      #Content {
-        margin-top: 200px;
-        display: flex;
-        height: 373px;
-      }
-
-      body {
-        background-image: url("img/soc/SOC_admin_bg.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-      .mainContentdiv {
-        padding: 15px;
-        padding-left: 120px;
-        font-size: 14px;
-        border-bottom: 1px solid #80808040;
-      }
-      .active {
-        color: green;
-      }
-      .danger {
-        color: red;
-      }
-    </style>
-    <script>
-
-    $(document).on('click', '.mainContentdiv', function(){
-        var userId = $('span', this).attr('id');
-        swal(
-          {
-            title: "Confirmation",
-            text: "Do you really want to block this User-"+userId +" ?",
-            type: "error",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            cancelButtonText: "CANCEL",
-            closeOnCancel: true,
-            showCloseButton: true,
-          },
-          function(isConfirm)
-           {
-            if (isConfirm) {
-              console.log('confirm button');
-              $.ajax({
-                type: "GET",
-                url: `http://localhost:8080/soc/users/${userId}/block`,              
-                contentType: "application/json",
-                dataType: "json",
-                cache: false,
-                success: function(data) {
-                  console.log("Activity created successfully", data);
-                },
-                error: function(data) {
-                  console.log("Something went wrong!");
-                }
-              });
-            }else{
-              console.log('click cancel button------');
-            }
-          }
-        );      
-    }); 
-
-    
-      var currentPageNumber = 0;
-      $(document).ready(function() {
-        loadMore(currentPageNumber);
-      });
-
-      function SelectCurrentRow(elem) {
-        $(".mainContentdiv").each(function() {
-          $(this).removeClass("SelectedRow");
-        });
-        $(elem).addClass("SelectedRow");
-      }
-
-      scrollPageNumber = 1;
-      $(window).scroll(function() {
-        if (
-          $(window).scrollTop() ==
-          $(document).height() - $(window).height()
-        ) {
-          loadMore(scrollPageNumber);
-          scrollPageNumber++;
-        }
-      });
-
-      function loadMore(currentPage) {
-        $.ajax({
-          method: "GET",
-          url: "http://localhost:8080/soc/activities",
-          dataType: "json",
-          cache: false,
-          success: function(data) {
-          
-            $.each(data, function(key, val) {
-             
-           
-            
-              var html = "";
-               
-              var strongpwd = '';
-              if(val.name == 'Strong Password'){
-                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+                  
-                  '- <span class="active"> Activity Resumed </span> </span>';
-              }else{
-                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+                  
-                  '- <span class="danger"> Activity Terminated </span> </span>';
-              }
-
-
-              if (val.user.status == "Active") {
-                html =
-                  '<div id="mainContentdiv" class="mainContentdiv" onclick="SelectCurrentRow(this)">'
-                    +'<span id='+val.user.id+'>' +
-                    "USER" +
-                    ":" +
-                    val.user.id +
-                    '</span><div class="innercontent"><span> Selects <b>' +
-                    val.user.name +
-                    '</b>- <span class="active"> Activity Resumed </span> </span>'+
-                    stringpwd +
-                  '</div></div>';
-              } else if (val.user.status == "Blocked") {
-                html =
-                  '<div id="mainContentdiv" class="mainContentdiv"  onclick="SelectCurrentRow(this);">' 
-                      +'<span id='+val.user.id+'>' +
-                      "USER" +
-                      ":" +
-                      val.user.id +
-                      '</span><div class="innercontent"><span> Selects <b>' +
-                      val.user.name +
-                      '</b>- <span class="danger"> Activity Terminated </span> </span></div></div>';
-              }
-              $("#RightDiv").append(html);
-              
-            });
-          },
-          error: function(data) {
-            console.log("Something went wrong!");
-          }
-        });
-      }
-    </script>
+    <link href="css/soc/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/soc/font-awesome.css" rel="stylesheet" />
+    <link href="css/soc/sweetalert.css" rel="stylesheet" />
+    <link href="css/soc/animate.css" rel="stylesheet" />
+    <link href="css/soc/style.css" rel="stylesheet" />
+    <link href="css/soc/soc-style.css" rel="stylesheet" />
+    <link href="css/soc/soc-admin-style.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -219,6 +30,8 @@
     </div> -->
       </div>
     </div>
-    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="js/soc/sweetalert.min.js"></script>
+    <script src="js/soc/jquery-2.1.1.js"></script>
+    <script src="js/soc/soc-admin.js"></script>
   </body>
 </html>
