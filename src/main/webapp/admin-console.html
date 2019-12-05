@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="5" />
+    <meta http-equiv="refresh" content="100" />
     <title>SOC: Lazy Loader</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -105,30 +105,43 @@
       function loadMore(currentPage) {
         $.ajax({
           method: "GET",
-          url: "http://localhost:8080/soc/activities?page=" + currentPage,
+          url: "http://localhost:8080/soc/activities",
           dataType: "json",
           cache: false,
           success: function(data) {
             $.each(data, function(key, val) {
               var html = "";
+
+              var stringpwd = '';
+              if(val.name == 'Strong Password'){
+                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+
+                  
+                  '- <span class="active"> Activity Resumed </span> </span>';
+              }else{
+                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+
+                  
+                  '- <span class="danger"> Activity Terminated </span> </span>';
+              }
               if (val.user.status == "Active") {
                 html =
                   '<div class="mainContentdiv" onclick="SelectCurrentRow(this)"><span>' +
-                  val.name +
+                  "USER" +
                   " " +
                   val.user.id +
-                  '</span><div class="innercontent"><span> Selects ' +
+                  '</span><div class="innercontent"><span> Selects <b>' +
                   val.user.name +
-                  '- <span class="active"> Activity Resumed </span> </span></div></div>';
+                  '</b>- <span class="active"> Activity Resumed </span> </span>'+
+                  stringpwd +
+                  '</div></div>';
               } else if (val.user.status == "Blocked") {
                 html =
                   '<div class="mainContentdiv"  onclick="SelectCurrentRow(this)"><span>' +
-                  val.name +
+                    "USER" +
                   " " +
                   val.user.id +
-                  '</span><div class="innercontent"><span> Selects ' +
+                  '</span><div class="innercontent"><span> Selects <b>' +
                   val.user.name +
-                  '- <span class="danger"> Activity Terminated </span> </span></div></div>';
+                  '</b>- <span class="danger"> Activity Terminated </span> </span></div></div>';
               }
               $("#RightDiv").append(html);
             });

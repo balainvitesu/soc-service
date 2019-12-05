@@ -1,13 +1,11 @@
 package com.qatar.soc.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +33,15 @@ public class SocController {
 	public ResponseEntity<List<User>> listUsers() {
 		return ResponseEntity.ok(userRepository.findAll());
 	}
+	
+	@GetMapping("/users/{id}")
+	public ResponseEntity<Optional<User>> getUser(@PathVariable(value = "id") final int id) {
+		return ResponseEntity.ok(userRepository.findById(id));
+	}
 
 	@GetMapping("/activities")
-	public ResponseEntity<List<Activity>> listActivities(@PageableDefault(value=10, page=0) Pageable pageable) {
-		Page<Activity> page = activityRepository.findAll(pageable);
-		return ResponseEntity.ok(page.getContent());
+	public ResponseEntity<List<Activity>> listActivities() {
+		return ResponseEntity.ok(activityRepository.findAll());
 	}
 
 	@PostMapping("/activity")

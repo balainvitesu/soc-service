@@ -1,7 +1,7 @@
 function createActivity(activity, userId) {
   $.ajax({
     type: "POST",
-    url: "http://localhost:8080/soc/activity",
+    url: "/soc/activity",
     data: JSON.stringify({
       name: activity,
       user: {
@@ -20,16 +20,51 @@ function createActivity(activity, userId) {
   });
 }
 
+function unblockUser(userId) {
+  $.ajax({
+    type: "GET",
+    url: `/soc/users/${userId}/activate`,
+    contentType: "application/json",
+    dataType: "json",
+    cache: false,
+    success: function(data) {
+      console.log("Activity created successfully", data);
+    },
+    error: function(data) {
+      console.log("Something went wrong!");
+    }
+  });
+}
+
+function getUserStatus(userId) {
+  $.ajax({
+    type: "GET",
+    url: "/soc/users/" + userId,
+    contentType: "application/json",
+    dataType: "json",
+    cache: false,
+    success: function(data) {
+      console.log("Getting User Status", data);
+      window.location.replace("login.html");
+    },
+    error: function(data) {
+      console.log("Something went wrong!");
+    }
+  });
+}
+
 function showBlockUserActivityAlert(userId, type) {
+  getUserStatus(userId);
   swal({
     title: "Alert - Offense",
     text: "Block user activity",
     type: "error"
   });
-  createActivity("Block user activity: "+type, userId);
+  createActivity("Block user activity: " + type, userId);
 }
 
 function showAccessDeniedAlert(userId) {
+  // getUserStatus(userId);
   swal(
     {
       title: "Alert - Offense",
@@ -46,6 +81,7 @@ function showAccessDeniedAlert(userId) {
 }
 
 function showWeakPasswordAlert(userId) {
+  getUserStatus(userId);
   swal({
     title: "Alert - Offense",
     text: "Weak Password",
@@ -55,6 +91,7 @@ function showWeakPasswordAlert(userId) {
 }
 
 function showStrongPasswordAlert(userId) {
+  getUserStatus(userId);
   swal(
     {
       title: "Good Job",
@@ -79,6 +116,7 @@ $(document).ready(function() {
   });
 
   $(".user").click(function() {
+    unblockUser($(this).data("value"));
     window.location.replace("password.html?userId=" + $(this).data("value"));
   });
 
@@ -130,10 +168,13 @@ $(document).ready(function() {
     let searchParams = new URLSearchParams(window.location.search);
     showBlockUserActivityAlert(searchParams.get("userId"), "Email Phishing");
   });
-  
+
   $(".s1").click(function() {
     let searchParams = new URLSearchParams(window.location.search);
-    showBlockUserActivityAlert(searchParams.get("userId"), "Copy confidential file");
+    showBlockUserActivityAlert(
+      searchParams.get("userId"),
+      "Copy confidential file"
+    );
   });
 
   $(".s3").click(function() {
@@ -176,7 +217,10 @@ $(document).ready(function() {
       function(isConfirm) {
         if (isConfirm) {
           let searchParams = new URLSearchParams(window.location.search);
-          showBlockUserActivityAlert(searchParams.get("userId"), "Browse the internet");
+          showBlockUserActivityAlert(
+            searchParams.get("userId"),
+            "Browse the internet"
+          );
         } else {
           swal("Cancelled", "Your imaginary file is safe :)", "error");
         }
