@@ -58,12 +58,20 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .mainContentdiv {
   padding: 15px;
   padding-left: 120px;
   font-size: 14px;
   border-bottom: 1px solid #80808040;
 }
+
+.mainContentdiv:hover {
+  cursor: pointer;
+  background-color: #0000ff1f;
+  color: green;
+}
+
 .active {
   color: green;
 }
