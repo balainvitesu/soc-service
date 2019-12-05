@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="refresh" content="100" />
     <title>SOC: Lazy Loader</title>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <style>
@@ -19,17 +20,17 @@
 
       .HeaderText {
         color: white;
-        width: 300px;
+        width: 417px;
       }
 
       #BlkUserAct {
         background-image: url("img/soc/SOC_block_user.png");
         background-repeat: no-repeat;
         background-size: cover;
-        height: 100px;
-        width: 100px;
-        margin-left: 100px;
-        margin-top: 100px;
+        height: 146px;
+        width: 147px;
+        margin-left: 124px;
+        margin-top: 50px;
       }
 
       #LeftDiv {
@@ -67,7 +68,7 @@
         background-size: cover;
       }
       .mainContentdiv {
-        padding: 20px;
+        padding: 15px;
         padding-left: 120px;
         font-size: 14px;
         border-bottom: 1px solid #80808040;
@@ -80,6 +81,45 @@
       }
     </style>
     <script>
+
+    $(document).on('click', '.mainContentdiv', function(){
+        var userId = $('span', this).attr('id');
+        swal(
+          {
+            title: "Confirmation",
+            text: "Do you really want to block this User-"+userId +" ?",
+            type: "error",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            cancelButtonText: "CANCEL",
+            closeOnCancel: true,
+            showCloseButton: true,
+          },
+          function(isConfirm)
+           {
+            if (isConfirm) {
+              console.log('confirm button');
+              $.ajax({
+                type: "GET",
+                url: `http://localhost:8080/soc/users/${userId}/block`,              
+                contentType: "application/json",
+                dataType: "json",
+                cache: false,
+                success: function(data) {
+                  console.log("Activity created successfully", data);
+                },
+                error: function(data) {
+                  console.log("Something went wrong!");
+                }
+              });
+            }else{
+              console.log('click cancel button------');
+            }
+          }
+        );      
+    }); 
+
+    
       var currentPageNumber = 0;
       $(document).ready(function() {
         loadMore(currentPageNumber);
@@ -91,6 +131,7 @@
         });
         $(elem).addClass("SelectedRow");
       }
+
       scrollPageNumber = 1;
       $(window).scroll(function() {
         if (
@@ -109,41 +150,48 @@
           dataType: "json",
           cache: false,
           success: function(data) {
+          
             $.each(data, function(key, val) {
+             
+           
+            
               var html = "";
-
-              var stringpwd = '';
+               
+              var strongpwd = '';
               if(val.name == 'Strong Password'){
-                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+
-                  
+                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+                  
                   '- <span class="active"> Activity Resumed </span> </span>';
               }else{
-                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+
-                  
+                stringpwd = '</span><div class="innercontent"><span> Selects ' +val.name+                  
                   '- <span class="danger"> Activity Terminated </span> </span>';
               }
+
+
               if (val.user.status == "Active") {
                 html =
-                  '<div class="mainContentdiv" onclick="SelectCurrentRow(this)"><span>' +
-                  "USER" +
-                  " " +
-                  val.user.id +
-                  '</span><div class="innercontent"><span> Selects <b>' +
-                  val.user.name +
-                  '</b>- <span class="active"> Activity Resumed </span> </span>'+
-                  stringpwd +
+                  '<div id="mainContentdiv" class="mainContentdiv" onclick="SelectCurrentRow(this)">'
+                    +'<span id='+val.user.id+'>' +
+                    "USER" +
+                    ":" +
+                    val.user.id +
+                    '</span><div class="innercontent"><span> Selects <b>' +
+                    val.user.name +
+                    '</b>- <span class="active"> Activity Resumed </span> </span>'+
+                    stringpwd +
                   '</div></div>';
               } else if (val.user.status == "Blocked") {
                 html =
-                  '<div class="mainContentdiv"  onclick="SelectCurrentRow(this)"><span>' +
-                    "USER" +
-                  " " +
-                  val.user.id +
-                  '</span><div class="innercontent"><span> Selects <b>' +
-                  val.user.name +
-                  '</b>- <span class="danger"> Activity Terminated </span> </span></div></div>';
+                  '<div id="mainContentdiv" class="mainContentdiv"  onclick="SelectCurrentRow(this);">' 
+                      +'<span id='+val.user.id+'>' +
+                      "USER" +
+                      ":" +
+                      val.user.id +
+                      '</span><div class="innercontent"><span> Selects <b>' +
+                      val.user.name +
+                      '</b>- <span class="danger"> Activity Terminated </span> </span></div></div>';
               }
               $("#RightDiv").append(html);
+              
             });
           },
           error: function(data) {
@@ -171,5 +219,6 @@
     </div> -->
       </div>
     </div>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
   </body>
 </html>
