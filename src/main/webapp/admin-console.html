@@ -12,8 +12,27 @@
     <link href="css/soc/soc-admin-style.css" rel="stylesheet" />
 
     <script>
-      $(document).on("click", ".mainContentdiv", function() {
-        var userId = $("span", this).attr("id");
+      var selectedUserId;
+      $(document).ready(function() {
+        $(".block-user").click(function() {
+          if (selectedUserId) {
+            blockUser(selectedUserId);
+          } else {
+            swal({
+              title: "",
+              text: "Please select a user to block",
+              type: "error"
+            });
+          }
+        });
+      });
+
+      var currentPageNumber = 0;
+      $(document).ready(function() {
+        loadMore(currentPageNumber);
+      });
+
+      function blockUser(userId) {
         swal(
           {
             title: "Confirmation",
@@ -47,17 +66,13 @@
             }
           }
         );
-      });
-
-      var currentPageNumber = 0;
-      $(document).ready(function() {
-        loadMore(currentPageNumber);
-      });
+      }
 
       function SelectCurrentRow(elem) {
         $(".mainContentdiv").each(function() {
           $(this).removeClass("SelectedRow");
         });
+        selectedUserId = $(elem).data("value");
         $(elem).addClass("SelectedRow");
       }
 
@@ -83,16 +98,27 @@
             reverseArray = data.reverse();
 
             $.each(reverseArray, function(key, val) {
-              
-              var isStrongPassword = (val.name === "Strong Password");
-              var stringpwd = `</span><div class="innercontent"><span> Selects ${val.name}
-                  - <span class=${isStrongPassword ? "active" : "danger"}> ${isStrongPassword ? "Activity Resumed" : "Activity Terminated"} </span> </span>`;
+              var isStrongPassword = val.name === "Strong Password";
+              var stringpwd = `</span><div class="innercontent"><span> Selects ${
+                val.name
+              }
+                        - <span class=${
+                          isStrongPassword ? "active" : "danger"
+                        }> ${
+                isStrongPassword ? "Activity Resumed" : "Activity Terminated"
+              } </span> </span>`;
 
-              var isActive = (val.user.status == "Active");
-              var html = `<div id="mainContentdiv" class="mainContentdiv" onclick="SelectCurrentRow(this)">
-                  <span id="${val.name}">USER : ${val.user.id}
-                  </span><div class="innercontent"><span> Selects <b>${val.user.name}</b>- <span class=${isActive ? "active" : "danger"}> ${isActive ? "Activity Resumed" : "Activity Terminated"} </span> </span>
-                  ${stringpwd}</div></div>`;
+              var isActive = val.user.status == "Active";
+              var html = `<div id="mainContentdiv" data-value="${
+                val.user.id
+              }" class="mainContentdiv" onclick="SelectCurrentRow(this)">
+                        <span id="${val.name}">USER : ${val.user.id}
+                        </span><div class="innercontent"><span> Selects <b>${
+                          val.user.name
+                        }</b>- <span class=${isActive ? "active" : "danger"}> ${
+                isActive ? "Activity Resumed" : "Activity Terminated"
+              } </span> </span>
+                        ${stringpwd}</div></div>`;
 
               $("#RightDiv").append(html);
             });
@@ -110,7 +136,7 @@
     <div id="Content">
       <div id="LeftDiv">
         <h2 class="HeaderText">Security Operation Center</h2>
-        <div id="BlkUserAct"></div>
+        <div id="BlkUserAct" class="block-user"></div>
       </div>
       <div id="RightDiv"></div>
     </div>

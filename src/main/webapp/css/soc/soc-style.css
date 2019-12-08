@@ -45,6 +45,7 @@ html {
 
 .backtohome{
   float: right;
+  margin-bottom: 25px;
 }
 
 .sweet-alert {
@@ -136,3 +137,6 @@ html {
   background-size: cover;
 }
 
+.compose-mail {
+  margin-top: 50px;
+}
