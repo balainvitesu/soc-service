@@ -43,6 +43,10 @@ html {
   margin: 150px 125px !important;
 }
 
+.backtohome{
+  float: right;
+}
+
 .sweet-alert {
   width: 510px !important;
 }
