@@ -79,15 +79,9 @@ html {
   max-width: 500px;
 }
 
-/* .loginscreen.middle-box {
-  margin-top: 70px !important;
-  width: 550px !important;
-  height: 500px !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  max-width: unset !important;
-} */
+.mail-body {
+  font-size: 20px !important;
+}
 
 .folder-list li a,
 .category-list li a {
