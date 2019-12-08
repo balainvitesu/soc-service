@@ -48,7 +48,7 @@ function getUserStatus(userId) {
       if (data.status === "Blocked") {
         swal(
           {
-            title: "Alert - Offense",
+            title: "Alert",
             text: "Admin has blocked you",
             type: "error"
           },
@@ -66,38 +66,30 @@ function getUserStatus(userId) {
   });
 }
 
-function showBlockUserActivityAlert(userId, type) {
+function showBlockUserActivityAlert(userId, type, message) {
   getUserStatus(userId);
   swal({
-    title: "Alert - Offense",
-    text: "Block user activity",
+    title: "Alert",
+    text: message,
     type: "error"
   });
   createActivity("Block user activity: " + type, userId);
 }
 
 function showAccessDeniedAlert(userId) {
-  // getUserStatus(userId);
-  swal(
-    {
-      title: "Alert - Offense",
-      text: "Access Denied",
-      type: "error"
-    },
-    function(isConfirm) {
-      if (isConfirm) {
-        // window.location.replace("login.html")
-      }
-    }
-  );
+  swal({
+    title: "Alert - Access Denied",
+    text: "You are not allowed to use this application, choose other user",
+    type: "error"
+  });
   createActivity("Access Denied", userId);
 }
 
 function showWeakPasswordAlert(userId) {
   getUserStatus(userId);
   swal({
-    title: "Alert - Offense",
-    text: "Weak Password",
+    title: "Alert - Weak Password",
+    text: "Your strength of the password is weak, choose a stronger password",
     type: "error"
   });
   createActivity("Weak Password", userId);
@@ -109,7 +101,8 @@ function showStrongPasswordAlert(userId) {
     {
       title: "Good Job",
       text: "Strong Password",
-      type: "success"
+      type: "success",
+      confirmButtonText: "Continue"
     },
     function(isConfirm) {
       if (isConfirm) {
@@ -169,24 +162,27 @@ $(document).ready(function() {
     }
   });
 
-  $(".demo1").click(function() {
-    swal({
-      title: "Welcome in Alerts",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-    });
-  });
-
   $(".mail-click").click(function() {
-    let searchParams = new URLSearchParams(window.location.search);
-    showBlockUserActivityAlert(searchParams.get("userId"), "Email Phishing");
+    alertUserActivity(
+      "Email Phishing",
+      "Email Phishing?",
+      "Clicking on untrusted link is not allowed !!!",
+      "Yes, Continue it!",
+      "No, Cancel please!",
+      "You will be blocked by Admin",
+      "You are safe now:)"
+    );
   });
 
   $(".s1").click(function() {
-    let searchParams = new URLSearchParams(window.location.search);
-    showBlockUserActivityAlert(
-      searchParams.get("userId"),
-      "Copy confidential file"
+    alertUserActivity(
+      "Copy confidential file",
+      "Copying confidential file?",
+      "Copying secret information is not allowed !!!",
+      "Yes, Continue it!",
+      "No, Cancel please!",
+      "You will be blocked by Admin",
+      "You are safe now:)"
     );
   });
 
@@ -197,33 +193,36 @@ $(document).ready(function() {
     );
   });
 
-  $(".demo3").click(function() {
-    swal(
-      {
-        title: "Are you sure?",
-        text: "You will not be able to recover this imaginary file!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
-        closeOnConfirm: false
-      },
-      function() {
-        swal("Deleted!", "Your imaginary file has been deleted.", "success");
-      }
+  $(".s2").click(function() {
+    alertUserActivity(
+      "Browse from Internet",
+      "Download application from the Internet?",
+      "Downloading files are not allowed from internet !!!",
+      "Yes, Download it!",
+      "No, cancel please!",
+      "You will be blocked by Admin",
+      "You are safe now:)"
     );
   });
 
-  $(".s2").click(function() {
+  function alertUserActivity(
+    type,
+    title,
+    message,
+    confirmButtonText,
+    cancelButtonText,
+    okMessage,
+    cancelMessage
+  ) {
     swal(
       {
-        title: "Download application from the Internet?",
-        text: "",
+        title: title,
+        text: message,
         type: "info",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, Download it!",
-        cancelButtonText: "No, cancel plx!",
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: cancelButtonText,
         closeOnConfirm: false,
         closeOnCancel: false
       },
@@ -232,12 +231,13 @@ $(document).ready(function() {
           let searchParams = new URLSearchParams(window.location.search);
           showBlockUserActivityAlert(
             searchParams.get("userId"),
-            "Browse the internet"
+            type,
+            okMessage
           );
         } else {
-          swal("Cancelled", "Your imaginary file is safe :)", "error");
+          swal("Good Job", cancelMessage, "success");
         }
       }
     );
-  });
+  }
 });
