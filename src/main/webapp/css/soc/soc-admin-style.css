@@ -14,14 +14,27 @@
   width: 417px;
 }
 
+.ActivityTitle {
+  width: 417px;
+  margin-left: 759px;
+  margin-top: -69px;
+  position: absolute;
+  color: #eeeae7fc;
+  font-size: 31px;
+  padding-right: 0px;
+  margin-right: 0px;
+  right: 224px;
+}
+
 #BlkUserAct {
   background-image: url("/img/soc/SOC_block_user.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 90%;
-  width: 90%;
-  margin-left: 124px;
+  height: 184px;
+  width: 188px;
+  margin-left: 117px;
   margin-top: 50px;
+  cursor: pointer;
 }
 
 #LeftDiv {
@@ -31,8 +44,8 @@
   width: 410px;
   height: inherit;
 }
+
 #RightDiv {
-  margin-right: 200px;
   width: 410px;
   height: inherit;
   overflow: scroll;
@@ -44,7 +57,7 @@
 }
 
 .SelectedRow {
-  background-color: #b9b9f71f;
+  background-color: #0000ff1f;
 }
 
 #Content {
@@ -61,20 +74,15 @@ body {
 
 .mainContentdiv {
   padding: 15px;
-  padding-left: 120px;
+  padding-left: 100px;
   font-size: 14px;
   border-bottom: 1px solid #80808040;
-}
-
-.mainContentdiv:hover {
-  cursor: pointer;
-  background-color: #0000ff1f;
-  color: green;
 }
 
 .active {
   color: green;
 }
+
 .danger {
   color: red;
 }

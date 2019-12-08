@@ -3,105 +3,14 @@
   <head>
     <!-- <meta http-equiv="refresh" content="100" /> -->
     <title>SOC | Admin Console</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
+    <script src="js/soc/jquery-2.1.1.js"></script>
     <link href="css/soc/bootstrap.min.css" rel="stylesheet" />
     <link href="css/soc/font-awesome.css" rel="stylesheet" />
     <link href="css/soc/sweetalert.css" rel="stylesheet" />
     <link href="css/soc/animate.css" rel="stylesheet" />
     <link href="css/soc/style.css" rel="stylesheet" />
-    <link href="css/soc/soc-style.css" rel="stylesheet" />
+    <link href="css/soc/soc-admin-style.css" rel="stylesheet" />
 
-    <style>
-      #Mainlogo {
-        background-image: url("img/soc/SOC_logo.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 150px;
-        width: 150px;
-        position: absolute;
-        top: 100px;
-        left: 300px;
-      }
-
-      .HeaderText {
-        color: white;
-        width: 417px;
-      }
-
-      .ActivityTitle {
-        width: 417px;
-        margin-left: 759px;
-        margin-top: -69px;
-        position: absolute;
-        color: #eeeae7fc;
-        font-size: 31px;
-        padding-right: 0px;
-        margin-right: 0px;
-        right: 224px;
-      }
-
-      #BlkUserAct {
-        background-image: url("img/soc/SOC_block_user.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 184px;
-        width: 188px;
-        margin-left: 117px;
-        margin-top: 50px;
-        cursor: pointer;
-      }
-
-      #LeftDiv {
-        text-align: center;
-        margin-left: 200px;
-        padding-top: 30px;
-        width: 410px;
-        height: inherit;
-      }
-
-      #RightDiv {
-        width: 410px;
-        height: inherit;
-        overflow: scroll;
-        overflow-x: hidden;
-      }
-
-      ::-webkit-scrollbar {
-        width: 1px;
-      }
-
-      .SelectedRow {
-        background-color: #0000ff1f;
-      }
-
-      #Content {
-        margin-top: 200px;
-        display: flex;
-        height: 373px;
-      }
-
-      body {
-        background-image: url("img/soc/SOC_admin_bg.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-
-      .mainContentdiv {
-        padding: 15px;
-        padding-left: 100px;
-        font-size: 14px;
-        border-bottom: 1px solid #80808040;
-      }
-
-      .active {
-        color: green;
-      }
-
-      .danger {
-        color: red;
-      }
-    </style>
     <script>
       $(document).on("click", ".mainContentdiv", function() {
         var userId = $("span", this).attr("id");
@@ -174,48 +83,17 @@
             reverseArray = data.reverse();
 
             $.each(reverseArray, function(key, val) {
-              var html = "";
+              
+              var isStrongPassword = (val.name === "Strong Password");
+              var stringpwd = `</span><div class="innercontent"><span> Selects ${val.name}
+                  - <span class=${isStrongPassword ? "active" : "danger"}> ${isStrongPassword ? "Activity Resumed" : "Activity Terminated"} </span> </span>`;
 
-              var strongpwd = "";
-              if (val.name == "Strong Password") {
-                stringpwd =
-                  '</span><div class="innercontent"><span> Selects ' +
-                  val.name +
-                  '- <span class="active"> Activity Resumed </span> </span>';
-              } else {
-                stringpwd =
-                  '</span><div class="innercontent"><span> Selects ' +
-                  val.name +
-                  '- <span class="danger"> Activity Terminated </span> </span>';
-              }
+              var isActive = (val.user.status == "Active");
+              var html = `<div id="mainContentdiv" class="mainContentdiv" onclick="SelectCurrentRow(this)">
+                  <span id="${val.name}">USER : ${val.user.id}
+                  </span><div class="innercontent"><span> Selects <b>${val.user.name}</b>- <span class=${isActive ? "active" : "danger"}> ${isActive ? "Activity Resumed" : "Activity Terminated"} </span> </span>
+                  ${stringpwd}</div></div>`;
 
-              if (val.user.status == "Active") {
-                html =
-                  '<div id="mainContentdiv" class="mainContentdiv" onclick="SelectCurrentRow(this)">' +
-                  "<span id=" +
-                  val.user.id +
-                  ">" +
-                  "USER" +
-                  ":" +
-                  val.user.id +
-                  '</span><div class="innercontent"><span> Selects <b>' +
-                  val.user.name +
-                  '</b>- <span class="active"> Activity Resumed </span> </span>' +
-                  stringpwd +
-                  "</div></div>";
-              } else if (val.user.status == "Blocked") {
-                html =
-                  '<div id="mainContentdiv" class="mainContentdiv"  onclick="SelectCurrentRow(this);">' +
-                  "<span id=" +
-                  val.user.id +
-                  ">" +
-                  "USER" +
-                  ":" +
-                  val.user.id +
-                  '</span><div class="innercontent"><span> Selects <b>' +
-                  val.user.name +
-                  '</b>- <span class="danger"> Activity Terminated </span> </span></div></div>';
-              }
               $("#RightDiv").append(html);
             });
           },
@@ -231,13 +109,11 @@
     <div id="Mainlogo"></div>
     <div id="Content">
       <div id="LeftDiv">
-        <h2 class="HeaderText">Welcome to Security Operation Center</h2>
+        <h2 class="HeaderText">Security Operation Center</h2>
         <div id="BlkUserAct"></div>
       </div>
-
       <div id="RightDiv"></div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="js/soc/sweetalert.min.js"></script>
   </body>
 </html>
