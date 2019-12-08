@@ -37,37 +37,36 @@ function unblockUser(userId) {
 }
 
 function getUserStatus(userId) {
-  $.ajax({
-    type: "GET",
-    url: "/soc/users/" + userId,
-    contentType: "application/json",
-    dataType: "json",
-    cache: false,
-    success: function(data) {
-      console.log("Getting User Status", data);
-      if (data.status === "Blocked") {
-        swal(
-          {
-            title: "Alert",
-            text: "Admin has blocked you",
-            type: "error"
-          },
-          function(isConfirm) {
-            if (isConfirm) {
-              window.location.replace("login.html");
+    $.ajax({
+      type: "GET",
+      url: "/soc/users/" + userId,
+      contentType: "application/json",
+      dataType: "json",
+      cache: false,
+      success: function(data) {
+        console.log("Getting User Status", data);
+        if (data.status === "Blocked") {
+          swal(
+            {
+              title: "Alert",
+              text: "Admin has blocked you",
+              type: "error"
+            },
+            function(isConfirm) {
+              if (isConfirm) {
+                window.location.replace("login.html");
+              }
             }
-          }
-        );
+          );
+        }
+      },
+      error: function(data) {
+        console.log("Something went wrong!");
       }
-    },
-    error: function(data) {
-      console.log("Something went wrong!");
-    }
-  });
+    });
 }
 
 function showBlockUserActivityAlert(userId, type, message) {
-  getUserStatus(userId);
   swal({
     title: "Alert",
     text: message,
@@ -214,6 +213,9 @@ $(document).ready(function() {
     okMessage,
     cancelMessage
   ) {
+    let searchParams = new URLSearchParams(window.location.search);
+    let userId = searchParams.get("userId");
+    getUserStatus(userId);
     swal(
       {
         title: title,
@@ -230,7 +232,7 @@ $(document).ready(function() {
         if (isConfirm) {
           let searchParams = new URLSearchParams(window.location.search);
           showBlockUserActivityAlert(
-            searchParams.get("userId"),
+            userId,
             type,
             okMessage
           );
