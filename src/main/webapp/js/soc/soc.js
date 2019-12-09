@@ -176,7 +176,7 @@ $(document).ready(function() {
   $(".s1").click(function() {
     alertUserActivity(
       "Copy secret file",
-      "Copying confidential file?",
+      "Copying secret file?",
       "Copying secret information is not allowed !!!",
       "Yes, Continue it!",
       "No, Cancel please!",
